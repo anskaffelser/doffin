@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Doffin API help</title>
+    
+</head>
+<body>
+    
+
+<link type="text/css" href="Home/HelpPage.css" rel="stylesheet">
+<header class="help-page">
+    <div class="content-wrapper">
+        <div class="float-left">
+            <h1>Doffin Publication Service</h1>
+        </div>
+    </div>
+</header>
+<div id="body" class="help-page">
+    <section class="featured">
+        <div class="content-wrapper">
+            <h2>Introduction</h2>
+            <p>
+                The controllers and actions mentioned here is the Doffin Publication Service. <br><br>
+                <strong>Doffin Publication Service v3</strong>
+                </p><ul>
+                    <li><a href="Downloads/HelpDocuments/V3/Doffin%20PDF%20Forms.zip">PDF forms</a></li>
+                    <li><a href="Downloads/HelpDocuments/V3/Forms%20validation%20rules.zip">Forms validation rules to-be-respected</a></li>
+                    <li><a href="Downloads/HelpDocuments/V3/DoffinV3.ExampleClient.zip">An example Doffin client implementation written in C#</a></li>
+                    <li><a href="Downloads/HelpDocuments/V3/Doffin%20Publication%20Service%20v3.docx">Specification document v3.0.1</a></li>
+                    <li><a href="Downloads/HelpDocuments/V3/EPS%20error%20codes%20v3.docx">Error codes</a></li>
+                    <li><a href="Downloads/HelpDocuments/V3/Doffin%20schemas%20V3.0.1.zip">Xsd schemas v3.0.1</a></li>
+                    <li><a href="Downloads/HelpDocuments/V3/Sample%20xml%20data.zip">Sample xml data</a></li>
+                    <li><a href="Downloads/HelpDocuments/V3/NUTS_Doffin_Location%20Mapping.xlsx">NUTS and Doffin location mapping</a></li>
+
+                    <li>
+                        <a href="Downloads/HelpDocuments/V3/v209_S01_translations_NB_Doffin.xlsx">Norwegian translations for forms </a>
+                        <br>
+                        <strong>Note!</strong>
+                        <span class="help-page">
+                            The texts are only a base translation and 
+not approved by Difi, the legal translation which is approved by Difi is
+ in the pdf-forms.
+                            This Excel is only as a help for integrators
+ to speed up their translation process.
+                            The label is the same label as in the TED 
+version of the schemas, which SIMAP has defined in their TEMPLATES 
+folder.
+                        </span>
+                    </li>
+                    <li><a href="Downloads/HelpDocuments/V3/FAQ.docx">FAQ</a></li>
+                </ul>
+            <p></p>
+            <strong>Additional information</strong><br>
+            If you have any further questions, contact support at <a href="mailto:project@eu-supply.com">project@eu-supply.com</a><br><br>
+            Publications made to the test service is automatically published to <a href="http://doffin.eu-supply.com/" target="_blank">doffin.eu-supply.com</a>.
+            If you need to test the approval and translation flow, please contact support
+        </div>
+    </section>
+    <section class="content-wrapper main-content clear-fix">
+
+
+<h2 id="DoffinNotices">DoffinNotices</h2>
+    <p>Controller for actions related to download of notices zip.</p>
+<table class="help-page-table">
+    <thead>
+        <tr><th>API</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="api-name"><a href="GET doffin_notices_download_{when}.html">GET doffin/notices/download/{when}</a></td>
+            <td class="api-documentation">
+                <p>This method will return all Notices published at a 
+particular date as a Zip archive.
+            Download is allowed for configured number of days back in 
+time except today.
+            Download is allowed during configured hours of a day.
+            If download fails, will return HttpStatus 400, "Bad 
+Request", together with a summary of what went wrong encoded as 
+text/plain.</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="api-name"><a href="GET doffin_notices_monthly_{when}.html">GET doffin/notices/monthly/{when}</a></td>
+            <td class="api-documentation">
+                <p>Fetch notices monthly as a zip-archive. Not publicly available. Only for Difi.</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="DoffinNotice">DoffinNotice</h2>
+<table class="help-page-table">
+    <thead>
+        <tr><th>API</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="api-name"><a href="POST doffin_notice.html">POST doffin/notice</a></td>
+            <td class="api-documentation">
+                <p>Submit a new Doffin Notice for publication. See 
+"Doffin Publication Service.docx" for details of the contents of the 
+notice.
+            Will return: 1) if everything went ok; the EpsRefNr of the 
+created notice in the body, together with the URL to where statuses for 
+the notice can be received in the header and the HTTP status code 201 
+(Created).2) If something went wrong; an HTTP status code to indicate 
+the type of error + an error message in the header. If validation went 
+wrong, a report of validation errors in the body.</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="api-name"><a href="PUT doffin_notice_{noticeId}.html">PUT doffin/notice/{noticeId}</a></td>
+            <td class="api-documentation">
+                <p>Update a notice. As long as a Get-request's 
+Updateable return-value is true, updating is permitted.
+            Updating is encouraged over using Amendment Notices. Try to 
+do updates if possible!
+            If the Updateable is false, you need to publish an amendment
+ instead.
+            Will return the HTTP status code 204 if everything went ok, 
+and otherwise an HTTP status code and error message to describe the 
+error.
+            Updates with this method will either be fully successful or 
+fully rolled back to the previous state.</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="api-name"><a href="GET doffin_notice_{noticeId}.html">GET doffin/notice/{noticeId}</a></td>
+            <td class="api-documentation">
+                <p>Get information about a notice previously sent for 
+publication.Will return an Eps.WebApiDtos.PublicApi.Notice and the HTTP 
+status code 200 if everything went ok.
+             If an error occured, another HTTP status code will be 
+returned possible together with an error message in the HTTP headers,
+             most commonly errorcode 404 if no notice was found with 
+that noticeId.</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="DoffinValidate">DoffinValidate</h2>
+    <p>Controller too validate doffin notices</p>
+<table class="help-page-table">
+    <thead>
+        <tr><th>API</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="api-name"><a href="POST doffin_validate.html">POST doffin/validate</a></td>
+            <td class="api-documentation">
+                <p>Do validation of a notice without actually submitting it to Doffin. The same validation rules
+            as for an actual submission is used. If validation is successful, will return HttpStatus 200. If validation fails,
+            will return HttpStatus 400, "Bad Request", together with a summary of what went wrong encoded as text/plain.</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<h2 id="DoffinTranslation">DoffinTranslation</h2>
+    <p>Handling of approval or disapproval of translations before sending to TED.</p>
+<table class="help-page-table">
+    <thead>
+        <tr><th>API</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="api-name"><a href="GET doffin_translation_{noticeId}.html">GET doffin/translation/{noticeId}</a></td>
+            <td class="api-documentation">
+                <p>Returns a translated notice for approval. The notice must have been translated
+            and have status AuthTranslationApproving, which is when the customer is supposed to
+            approve or disapprove the translation.</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="api-name"><a href="POST doffin_translation_Approve.html">POST doffin/translation/Approve</a></td>
+            <td class="api-documentation">
+                <p>Explicit approval of a notice's translation. If not called within 24 hours from when
+            the translation is completed, will be auto-approved.</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="api-name"><a href="POST doffin_translation_Disapprove.html">POST doffin/translation/Disapprove</a></td>
+            <td class="api-documentation">
+                <p>Disapprove a translation of a notice to be sent to TED. A reason text is a mandatory part of the request.
+            Will cause the notice to be sent back to the translators with the reason phrase for a new attempt.</p>
+            </td>
+        </tr>
+    </tbody>
+</table>    </section>
+</div>
+
+
+</body></html>

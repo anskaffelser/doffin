@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>POST doffin/notice</title>
+    
+</head>
+<body>
+    
+
+<link type="text/css" href="POST%20doffin_notice-filer/HelpPage.css" rel="stylesheet">
+<div id="body" class="help-page">
+    
+    <section class="content-wrapper main-content clear-fix">
+        
+<h1>POST doffin/notice</h1>
+<div>
+    <p>Submit a new Doffin Notice for publication. See "Doffin 
+Publication Service.docx" for details of the contents of the notice.
+            Will return: 1) if everything went ok; the EpsRefNr of the 
+created notice in the body, together with the URL to where statuses for 
+the notice can be received in the header and the HTTP status code 201 
+(Created).2) If something went wrong; an HTTP status code to indicate 
+the type of error + an error message in the header. If validation went 
+wrong, a report of validation errors in the body.</p>
+
+    <h2>Request Information</h2>
+
+    <h3>URI Parameters</h3>
+        <p>None.</p>
+
+
+
+    <h3>Body Parameters</h3>
+
+    <p>The content of the Notice to publish. XML data, UTF8 encoded, sent as base64Binary</p>
+
+        Collection of byte
+    
+<div class="EusDocumentation">
+            <h2>Sample invokations</h2>
+            <i>The following is a sample communication with the server as captured by Fiddler.<br>
+            Fiddler is a great tool for investigating interactions with a HTTP server and can be downloaded for free.
+            </i>
+            <p>
+            This is what should be sent and what to be expected back over the wire, when doing a post of a notice.
+            The request looks like this.
+            </p>
+            <pre>            POST https://epsservicetest.eu-supply.com/doffin/notice HTTP/1.1
+            Content-Type: application/xml
+            User-Agent: Fiddler
+            Host: epsservicetest.eu-supply.com
+            Content-Length: 27041
+            Authorization: Basic ...
+            
+            &lt;base64Binary xmlns="http://schemas.microsoft.com/2003/10/Serialization/"&gt;77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxET0ZGSU5fRVNFTkRFUlMgeHNpOm5vTmFtZXNwYWNlU2NoZW1hTG9jYXRpb249IkM6XFRGU1xQcm9kdWN0XFNvdXJjZVxEZXZcUHJvamVjdHNcRXBzXFhzbHRcU2NoZW1hc1xEb2ZmaW5cVjEuMC4wXERPRkZJTl9FU0VOREVSUy54ZCIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI...
+            </pre>
+            <p>
+            The response sent back includes a status code and a message saying the notice was published.
+            </p>
+            <pre>            HTTP/1.1 201 https://epsservicetest.eu-supply.com/Doffin/notice/2013-679666
+            Cache-Control: no-cache
+            Pragma: no-cache
+            Content-Type: application/xml; charset=utf-8
+            Expires: -1
+            Server: Microsoft-IIS/7.5
+            X-AspNet-Version: 4.0.30319
+            X-Powered-By: ASP.NET
+            Date: Mon, 18 Nov 2013 15:05:22 GMT
+            Content-Length: 215
+            
+            &lt;z:anyType xmlns:d1p1="http://www.w3.org/2001/XMLSchema" i:type="d1p1:string" xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/"&gt;2013-679666&lt;/z:anyType&gt;
+            </pre>
+            <p>
+            Together with the status-code, on the same line, is also the
+ URL where the newly created notice can be accessed (try it).
+            In the body is returned the DoffinRefNr reference-number, 
+which is a string. It is wrapped in (in this example) some XML-tags, 
+saying what type it is.
+            The reason it is sent wrapped in XML is because of the 
+accept-headers we did send in the request (Accept: application/xml).
+            If we instead had accept-headers with json (Accept: 
+application/json), the response would be:
+            </p>
+            <pre>            HTTP/1.1 201 https://epsservicetest.eu-supply.com/Doffin/notice/2013-959885
+            Cache-Control: no-cache
+            Pragma: no-cache
+            Content-Type: application/json; charset=utf-8
+            Expires: -1
+            Server: Microsoft-IIS/7.5
+            X-AspNet-Version: 4.0.30319
+            X-Powered-By: ASP.NET
+            Date: Mon, 18 Nov 2013 15:12:22 GMT
+            Content-Length: 13
+            
+            "2013-959885"
+            </pre>
+            </div>
+
+
+        <h3>Request Formats</h3>
+
+<div>
+        <h4 class="sample-header">application/json, text/json</h4>
+        <div class="sample-content">
+            <span><b>Sample:</b></span>
+<pre class="wrapped">"PD94bWwgdmVyc2lvbj0iMS4wIj8+PHJlcGxhY2VXaXRoU29tZXRoaW5nVmFsaWQvPg=="
+</pre>
+        </div>
+        <h4 class="sample-header">application/xml, text/xml</h4>
+        <div class="sample-content">
+            <span><b>Sample:</b></span>
+<pre class="wrapped">&lt;base64Binary xmlns="http://schemas.microsoft.com/2003/10/Serialization/"&gt;PD94bWwgdmVyc2lvbj0iMS4wIj8+PHJlcGxhY2VXaXRoU29tZXRoaW5nVmFsaWQvPg==&lt;/base64Binary&gt;
+</pre>
+        </div>
+        <h4 class="sample-header">application/x-www-form-urlencoded</h4>
+        <div class="sample-content">
+            <span><b>Sample:</b></span>
+    <p>Sample not available.</p>
+
+        </div>
+</div>
+    <h2>Response Information</h2>
+
+    <h3>Resource Description</h3>
+
+    <p></p>
+
+HttpResponseMessage    <table class="help-page-table">
+        <thead>
+            <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td class="parameter-name">Version</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        Version
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">Content</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                       HttpContent
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">StatusCode</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        HttpStatusCode
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">ReasonPhrase</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        string
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">Headers</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                                Collection of             Object
+
+
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">RequestMessage</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                       HttpRequestMessage
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">IsSuccessStatusCode</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        boolean
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+    </section>
+</div>
+
+
+</body></html>

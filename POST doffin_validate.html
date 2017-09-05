@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>POST doffin/validate</title>
+    
+</head>
+<body>
+    
+
+<link type="text/css" href="POST%20doffin_validate-filer/HelpPage.css" rel="stylesheet">
+<div id="body" class="help-page">
+    
+    <section class="content-wrapper main-content clear-fix">
+        
+<h1>POST doffin/validate</h1>
+<div>
+    <p>Do validation of a notice without actually submitting it to Doffin. The same validation rules
+            as for an actual submission is used. If validation is successful, will return HttpStatus 200. If validation fails,
+            will return HttpStatus 400, "Bad Request", together with a summary of what went wrong encoded as text/plain.</p>
+
+    <h2>Request Information</h2>
+
+    <h3>URI Parameters</h3>
+        <p>None.</p>
+
+
+
+    <h3>Body Parameters</h3>
+
+    <p>The Notice to validate. XML data, UTF8 encoded, sent as base64Binary</p>
+
+        Collection of byte
+    
+<div class="EusDocumentation">
+            <h2>Sample invokations</h2>
+            <i>The following is a sample communication with the server as captured by Fiddler.<br>
+            Fiddler is a great tool for investigating interactions with a HTTP server and can be downloaded for free.
+            </i>
+            <p>
+            This is what should be sent and what to be expected back over the wire, when validating a notice.
+            The request looks like this.
+            </p>
+            <pre>            POST https://epsservicetest.eu-supply.com/Doffin/validate/notice HTTP/1.1
+            Content-Type: application/xml
+            User-Agent: Fiddler
+            Host: epsservicetest.eu-supply.com
+            Content-Length: 27041
+            Authorization: Basic ...
+            
+            &lt;base64Binary xmlns="http://schemas.microsoft.com/2003/10/Serialization/"&gt;77u/PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxET0ZGSU5fRVNFTkRFUlMgeHNpOm5vTmFtZXNwYWNlU2NoZW1hTG9jYXRpb249IkM6XFRGU1xQcm9kdWN0XFNvdXJjZVxEZXZcUHJvamVjdHNcRXBzXFhzbHRcU2NoZW1hc1xEb2ZmaW5cVjEuMC4wXERPRkZJTl9FU0VOREVSUy54ZCIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI...
+            </pre>
+            <p>
+            The response sent back in this case is
+            </p>
+            <pre>            HTTP/1.1 200 Validation successful
+            Cache-Control: no-cache
+            Pragma: no-cache
+            Content-Length: 21
+            Content-Type: text/plain; charset=utf-8
+            Expires: -1
+            Server: Microsoft-IIS/7.5
+            X-AspNet-Version: 4.0.30319
+            X-Powered-By: ASP.NET
+            Date: Mon, 18 Nov 2013 16:04:08 GMT
+            
+            Validation successful
+            </pre>
+            <p>
+            The status-code and also the message, says the validation was successful.
+            </p>
+            <p>
+            Lets do another invocation, this time with a notice with invalid data.
+            The request, would still be the same, except for the data.
+            The response in this case looks like this.
+            </p>
+            <pre>            HTTP/1.1 400 Validation failed
+            Cache-Control: no-cache
+            Pragma: no-cache
+            Content-Length: 314
+            Content-Type: text/plain; charset=utf-8
+            Expires: -1
+            Server: Microsoft-IIS/7.5
+            X-AspNet-Version: 4.0.30319
+            X-Powered-By: ASP.NET
+            Date: Mon, 18 Nov 2013 16:10:21 GMT
+            
+            Validation errors encountered:
+            	(ERR1, The Xml document isn't wellformed according to the XSD schemas:)
+            	(, The element 'DOFFIN_APPENDIX' has invalid child element 'MUNICIPALITY'. List of possible elements expected: 'AUTHORITY_INVOICE, LOCATION, REFERENCE_SECTION, PUBLISH_TO_TED'.)
+            </pre>
+            <p>
+            The status-code says indicates that something is wrong in the notice we're trying to validate.
+            In the body is a description of what was wrong. In this case, the document isn't valid according to the XSD schema.
+            </p>
+            </div>
+
+
+        <h3>Request Formats</h3>
+
+<div>
+        <h4 class="sample-header">application/json, text/json</h4>
+        <div class="sample-content">
+            <span><b>Sample:</b></span>
+<pre class="wrapped">"PD94bWwgdmVyc2lvbj0iMS4wIj8+PHJlcGxhY2VXaXRoU29tZXRoaW5nVmFsaWQvPg=="
+</pre>
+        </div>
+        <h4 class="sample-header">application/xml, text/xml</h4>
+        <div class="sample-content">
+            <span><b>Sample:</b></span>
+<pre class="wrapped">&lt;base64Binary xmlns="http://schemas.microsoft.com/2003/10/Serialization/"&gt;PD94bWwgdmVyc2lvbj0iMS4wIj8+PHJlcGxhY2VXaXRoU29tZXRoaW5nVmFsaWQvPg==&lt;/base64Binary&gt;
+</pre>
+        </div>
+        <h4 class="sample-header">application/x-www-form-urlencoded</h4>
+        <div class="sample-content">
+            <span><b>Sample:</b></span>
+    <p>Sample not available.</p>
+
+        </div>
+</div>
+    <h2>Response Information</h2>
+
+    <h3>Resource Description</h3>
+
+    <p></p>
+
+HttpResponseMessage    <table class="help-page-table">
+        <thead>
+            <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td class="parameter-name">Version</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        Version
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">Content</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        HttpContent
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">StatusCode</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        HttpStatusCode
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">ReasonPhrase</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        string
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">Headers</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                                Collection of             Object
+
+
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">RequestMessage</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        HttpRequestMessage
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">IsSuccessStatusCode</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        boolean
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+    </section>
+</div>
+
+
+</body></html>

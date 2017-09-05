@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>GET doffin/notice/{noticeId}</title>
+    
+</head>
+<body>
+    
+
+<link type="text/css" href="GET%20doffin_notice_%7BnoticeId%7D-filer/HelpPage.css" rel="stylesheet">
+<div id="body" class="help-page">
+    
+    <section class="content-wrapper main-content clear-fix">
+        
+<h1>GET doffin/notice/{noticeId}</h1>
+<div>
+    <p>Get information about a notice previously sent for 
+publication.Will return an Eps.WebApiDtos.PublicApi.Notice and the HTTP 
+status code 200 if everything went ok.
+             If an error occured, another HTTP status code will be 
+returned possible together with an error message in the HTTP headers,
+             most commonly errorcode 404 if no notice was found with 
+that noticeId.</p>
+
+    <h2>Request Information</h2>
+
+    <h3>URI Parameters</h3>
+        <table class="help-page-table">
+        <thead>
+            <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td class="parameter-name">noticeId</td>
+                    <td class="parameter-documentation">
+                        <p>The EpsRefNr of a previously submitted notice</p>
+                    </td>
+                    <td class="parameter-type">
+                        string
+                    </td>
+                    <td class="parameter-annotations">
+                                <p>Required</p>
+                    </td>
+                </tr>
+        </tbody>
+    </table>
+
+
+
+    <h3>Body Parameters</h3>
+
+    <p></p>
+
+        <p>None.</p>
+    
+<div class="EusDocumentation">
+             <h2>About the return value of the call</h2>
+             <p>
+             The return-value of the GET-request is a serialization of the class Notice, which can be found in the
+             publicly available library "WebApiDtos". In case you don't have access to the source, here are
+             the properties with documentation.
+             </p>
+             <dl>
+             <dt>DoffinRefNr</dt><dd>Reference number for the Notice in Doffin</dd>
+             <dt>TedReference</dt><dd>TED reference number, if exists</dd>
+             <dt>PublishStatus</dt><dd>The status for the ongoing publication. See below for possible values (or read the source code in WebApiDtos)</dd>
+             <dt>FailureReason</dt><dd>If PublishStatus has value "Failed", specifies what went wrong.</dd>
+             <dt>PublishedDate</dt><dd>If PublishStatus has value "Published", specifies at which time publication were done.</dd>
+             <dt>Updateable</dt><dd>Indicates wether the notice is still updateable with the PUT call.</dd>
+             <dt>Amendments</dt><dd>A list of the amendments that has 
+been posted for the notice (a amendment has the same structure minus 
+amendments and updateable-flags).</dd>
+             </dl>
+             <dl>
+             <dt>Possible values for the PublishStatus are</dt>
+             <dd>Approving, Translating, AuthTranslationApproving, SentToTED, Published, Failed</dd>
+             </dl>
+             <h2>Sample invocations</h2>
+             <i>The following is a sample communication with the server as captured by Fiddler.<br>
+             Fiddler is a great tool for investigating interactions with a HTTP server and can be downloaded for free.
+             </i>
+             <p>
+             The following is the request when querying for a notice 
+that has been submitted, but not yet published (as can be seen on the 
+status)
+             </p>
+             <pre>             GET https://epsservicetest.eu-supply.com/Doffin/notice/2013-959885 HTTP/1.1
+             Content-Type: application/xml
+             Accept: application/xml
+             User-Agent: Fiddler
+             Host: epsservicetest.eu-supply.com
+             Content-Length: 0
+             Authorization: Basic ...
+             </pre>
+             <p>
+             The response for this
+             </p>
+             <pre>             HTTP/1.1 200 OK
+             Cache-Control: no-cache
+             Pragma: no-cache
+             Content-Type: application/xml; charset=utf-8
+             Expires: -1
+             Server: Microsoft-IIS/8.0
+             X-AspNet-Version: 4.0.30319
+             X-Powered-By: ASP.NET
+             Date: Mon, 18 Nov 2013 15:49:07 GMT
+             Content-Length: 367
+            
+             &lt;Notice xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Eps.WebApiDtos.PublicApi"&gt;
+                 &lt;DoffinRefNr&gt;2013-959885&lt;/DoffinRefNr&gt;
+                 &lt;FailureReason i:nil="true" /&gt;
+                 &lt;PublishStatus&gt;Translating&lt;/PublishStatus&gt;
+                 &lt;PublishedDate i:nil="true" /&gt;
+                 &lt;TedReference i:nil="true" /&gt;
+                 &lt;Amendments i:nil="true" /&gt;
+                 &lt;Updateable&gt;true&lt;/Updateable&gt;
+             &lt;/Notice&gt;
+             </pre>
+             <p>
+             As can be seen from the response, the current state for this notice was Translating.
+             It had no amendments and is still updateable. Since the status is not Published or Failed;
+             PublishedDate, TedReference and FailureReason is null.
+             </p>
+             </div>
+
+
+
+    <h2>Response Information</h2>
+
+    <h3>Resource Description</h3>
+
+    <p></p>
+
+HttpResponseMessage    <table class="help-page-table">
+        <thead>
+            <tr><th>Name</th><th>Description</th><th>Type</th><th>Additional information</th></tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td class="parameter-name">Version</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        Version
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">Content</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        HttpContent
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">StatusCode</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        HttpStatusCode
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">ReasonPhrase</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        string
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">Headers</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                                Collection of             Object
+
+
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">RequestMessage</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        HttpRequestMessage
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="parameter-name">IsSuccessStatusCode</td>
+                    <td class="parameter-documentation">
+                        <p></p>
+                    </td>
+                    <td class="parameter-type">
+                        boolean
+                    </td>
+                    <td class="parameter-annotations">
+                            <p>None.</p>
+                    </td>
+                </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+    </section>
+</div>
+
+
+</body></html>
